@@ -22,25 +22,25 @@
  > Настроил и создал виртуальную машину в программе VirtualBox, и установил на неё операционную систему Ubuntu Server 20.04.6 LTS (LongTermService), скачав подходящий для меня iso-образ с официального сайта Ubuntu. Поскольку эта ОС для серверов, у неё отсутствует графический интерфейс.
 ### 1.2 Запуск
 > Первое сообщение, которое встречает нас после установки и запуска системы:
-![Alt text](screenshots/01.first_message.jpeg)
+![Alt text](src/screenshots/01.first_message.jpeg)
 >
 > Система просит ввести логин и пароль для входа. После ввода логина и пароля родительского пользователя, нас встречает вот такое приветствие:
-![Alt text](screenshots/01.greetings.jpeg)
+![Alt text](src/screenshots/01.greetings.jpeg)
 ### 1.3 Узнаю версию системы
 > Впринципе, выше уже видна версия операционной системы, но также её можно узнать в любой момент, прописав в терминале команду:
 > - [X] `cat /etc/issue`
 > 
-> ![Alt text](screenshots/01.etc_issue.jpeg)
+> ![Alt text](src/screenshots/01.etc_issue.jpeg)
 > - `cat` - выводит в терминал содержимое файлов
 > - /etc - **e**ditable **t**ext **c**onfigurations - папка в линукс в которой хранятся настройки системы в виде конфигурационных файлов, которые можно редактировать.
 > - /etc/issue - файл, в котором записано приветственное сообщение (login message), которое выводится на экран перед вводом логина и пароля , называется **issue** - потомучто это с англиского "выдача"/"вывод". Содержимое файла /etc/issue как раз и выводится на экран в самом начале при запуске системы, и на самом первом скрине это он и есть. Текст этого файла можно даже отредачить, на что намекает название папки, в которой он находится (**e**ditable **t**ext **c**onfigurations). И при запуске системы вас будет встречать любое сообщение, какое вы только захотите. Я попробовал это сделать и это сработало:
-![Alt text](screenshots/01.sutom_first_message.jpeg)
+![Alt text](src/screenshots/01.sutom_first_message.jpeg)
 
 
 ## Part 2. Создание пользователя
 ### 2.1. useradd
 > Команда для создания нового пользователя в Линукс - `useradd` , попробую её ввести:
-![Alt text](screenshots/02.no_rights.jpeg)
+![Alt text](src/screenshots/02.no_rights.jpeg)
 Система отказала мне с сообщением "доступ запрещён". Дело в том, что созданный мной при установке системы пользователь не обладает всеми правами в системе, и не имеет полный контроль над всеми файлами системы. В отличие от пользователя с именем **root** ! Это встроенный в систему пользователь, который создаётся автоматически в процессе установки системы. Его также называют суперпользователем.
 Пользователь **root** имеет доступ ко всем файлам и может выполнять любые команды без ограничений. Это включает в себя редактирование системных конфигураций, установку и удаление программ, управление пользователями и многое другое. Короче, **root** может делать в системе ВСЁ. И если хочется выполнить какое-то действие, а на него нет прав, можно выполнить это действие от имени **root** пользователя, и действие выполнится. Для этого перед вводом команы нужно написать `sudo`. Подробнее о команде `sudo` рассказываю [**здесь**](#part-5-использование-команды-sudo).
 Получается, что на некоторые команды у моего пользователя по умолчанию нет прав, но я могу вызвать эти команды, написав перед ними слово `sudo`. Отныне и далее, я так и буду делать, если для какого-то действия мне будут нужны root-права.
@@ -48,20 +48,20 @@
 > Создаю нового пользователя: 
 > - [X] `sudo useradd -m cpotyr`
 > 
-> ![Alt text](screenshots/02.useradd.jpeg)
+> ![Alt text](src/screenshots/02.useradd.jpeg)
 >
 > > `-m`  -  создаёт для пользователя домашнюю директорию
 > 
 > Новый пользователь, созданный командой `useradd` сохраняется в текстовом файле **/etc/passwd**
 > - Последняя строчка вывода команды `cat /etc/passwd`:
-![Alt text](screenshots/02.cat_etc_passwd.jpeg)
+![Alt text](src/screenshots/02.cat_etc_passwd.jpeg)
 в системе есть новый пользователь
 
 ### 2.2. usermod
 > Добавляю нового пользователя *cpotyr* в группу *adm*:
 > 
 > - [X] `sudo usermod -aG adm cpotyr`
-> ![Alt text](screenshots/02.usermod.jpeg)
+> ![Alt text](src/screenshots/02.usermod.jpeg)
 > > Опции:
 > >
 > > `-G`  - добавляет пользователя в указанную группу
@@ -71,32 +71,32 @@
 > > `-R`  - удаляет указанного пользователя из указанной группы
 >
 > - id нового пользователя:
-![Alt text](screenshots/02.id.jpeg)
+![Alt text](src/screenshots/02.id.jpeg)
 
 ## Part 3. Настройка сети ОС
 ### 3.1 Задаю название машины вида user-1
 > Изменяю имя компьютера (хоста) на "user-1"
 > - [X] sudo hostname user-1
->  ![Alt text](screenshots/03.hostname.jpeg)
+>  ![Alt text](src/screenshots/03.hostname.jpeg)
 > После перезахода в систему изменения вступили в силу
-> ![Alt text](screenshots/03.exiting.jpeg)
+> ![Alt text](src/screenshots/03.exiting.jpeg)
 > 
 > Имя сменилось с "universeg6" на "user-1" 👍
 ### 3.2 Устанавливаю временную зону, соответствующую моему текущему местоположению
 > - [X] `sudo timedatectl set-timezone Europe/Moscow`
-> ![Alt text](screenshots/03.timedatectl.jpeg)
+> ![Alt text](src/screenshots/03.timedatectl.jpeg)
 > "ctl" - сокращение от **c**on**t**ro**l**
 
 > более простая команда, показывающая дату и время:
 > - [X] `date`
 > 
-> ![Alt text](screenshots/03.date.jpeg)
+> ![Alt text](src/screenshots/03.date.jpeg)
 > > `-R` - показывает время в 24-часовом формате
 > 
 > Теперь время на момент вызова команды актуальное 👍
 ### 3.3 Вывожу названия сетевых интерфейсов с помощью консольной команды
 > - [X] `ip a`
->![Alt text](screenshots/03.ip_a.jpeg)
+>![Alt text](src/screenshots/03.ip_a.jpeg)
 > В выводе команды видно что у меня есть 3 сетевых интерфейса: 
 > 1. <font size = 4 style ="color:skyblue">**lo**</font> - 
 > <font style = "color:skyblue">**loopback**</font>-интерфейс
@@ -144,28 +144,28 @@
 > - [x] `cat /var/log/syslog | grep -i dhcp`
 > 
 > скрин с этими командами:
-> ![Alt text](screenshots/03.DHCP.jpeg)
+> ![Alt text](src/screenshots/03.DHCP.jpeg)
 ### 3.5. Определяю и вывожу на экран внешний ip-адрес шлюза (ip) и внутренний IP-адрес шлюза, он же ip-адрес по умолчанию (gw).
 > - [x] `hostname -i` - узнал внутренний ip-адресс
-> ![Alt text](screenshots/03.hostname_i.jpeg)
+> ![Alt text](src/screenshots/03.hostname_i.jpeg)
 > 
 > Команда вывела как IPv4 так и IPv6
 
 > - [x] `curl ipinfo.io` - узнал внешний ip-адрес
-> ![Alt text](screenshots/03.ipinfo.jpeg)
+> ![Alt text](src/screenshots/03.ipinfo.jpeg)
 > Команда вывела внешний ip-адрес и кучу другой информации о подключении, такую как локацию, временную зону, провайдера и т.д.
 > А по сути, `curl` - команда, которая может заходить на сайты и скачивать оттуда файлы и даже выводить их содержимое в терминал. Команда зашла на сайт ipinfo.io и вывела на экран информацию с этого сайта.
 
 ### 3.6. Задаю статичные (заданные вручную, а не полученные от DHCP сервера) настройки ip, gw, dns (используя публичный DNS серверы, например 1.1.1.1 или 8.8.8.8).
 > - [x] `ls /etc/netplan`
 > - [x] `sudo vim /etc/netplan/00-installer-config.yaml`
-> ![Alt text](screenshots/03.etc_netplan_yaml.jpeg)
+> ![Alt text](src/screenshots/03.etc_netplan_yaml.jpeg)
 > Настройки ip, gw, dns хранятся в этом конфигурационном файле. Отредактирую его вручную через vim.
 > 
 > Было:
-> ![Alt text](screenshots/03.config_before.jpeg)
+> ![Alt text](src/screenshots/03.config_before.jpeg)
 > Стало:
-> ![Alt text](screenshots/03.network_config_edited.jpeg)
+> ![Alt text](src/screenshots/03.network_config_edited.jpeg)
 > Как видим, настройки ip заданы НЕ от DHCP-сервера
 
 > Применяю изменения командой:
@@ -174,11 +174,11 @@
 > И перезагружаю систему:
 > - [x] `reboot`
 > 
-> ![Alt text](screenshots/03.netplan_apply.jpeg)
+> ![Alt text](src/screenshots/03.netplan_apply.jpeg)
 ### 3.7. Перезагружаю виртуальную машину. Убеждаюсь, что статичные сетевые настройки (ip, gw, dns) соответствуют заданным в предыдущем пункте.
 После перезагрузки:
 > - [x] `ip addr show`
-> ![Alt text](screenshots/03.ip_addr_show.jpeg)
+> ![Alt text](src/screenshots/03.ip_addr_show.jpeg)
 
 
 > Успешно пингую удаленные хосты 1.1.1.1, 8.8.8.8 и ya.ru:
@@ -186,19 +186,19 @@
 > - [x] `ping 8.8.8.8`
 > - [x] `ping ya.ru`
 > 
-> ![Alt text](screenshots/03.ping_no_loss.jpeg)
+> ![Alt text](src/screenshots/03.ping_no_loss.jpeg)
 ## Part 4. Обновление ОС
 Для обновления системы буду использовать пакетный менеджер "apt". Также в Ubuntu есть пакетный менеджер "apt-get", но "apt" был введен как более удобная и современная альтернатива, с более понятным консольным выводом. Принципиальных различий между ними вроде бы нет, но, насколько я понял, "apt-get" подходит для более опытных пользователей и разработчиков и предпочтителен для скриптов и систем, где требуется стабильный и предсказуемый интерфейс командной строки.
 
 
 > - [X] `sudo apt update` - обновляю список пакетов
-> ![Alt text](screenshots/04.1.apt_update.jpeg)
+> ![Alt text](src/screenshots/04.1.apt_update.jpeg)
 
 > - [X] `sudo apt upgrade` - обновляю сами пакеты
-> ![Alt text](screenshots/04.2.apt_upgrade.jpeg)
+> ![Alt text](src/screenshots/04.2.apt_upgrade.jpeg)
 > Процесс обновления пошёл так быстро, что команда процесса сразу улетела наверх и я не успел её заскринить. Но всё обновилось.
 > Если повторно ввести команду `sudo apt upgrade`, выйдет сообщение что обновления отсутствуют.
-> ![Alt text](screenshots/04.3.apt_upgrade_again.jpeg)
+> ![Alt text](src/screenshots/04.3.apt_upgrade_again.jpeg)
 ## Part 5. Использование команды sudo
 `SUDO` (англ. **S**ubstitute **U**ser and **do**, дословно «cменить пользователя и сделать»)
 Команда `sudo` предоставляет пользователям возможность выполнять команды от имени суперпользователя(😎) **root**, либо других пользователей. Правила, используемые sudo для принятия решения о предоставлении доступа, находятся в файле **/etc/sudoers** . 
@@ -213,14 +213,14 @@ Sudoers - пользователи, у которых есть право исп
 
 Итак, давайте сначала убедимся, что у моего нового пользователя *cpotyr* нет root-прав, и нет прав на использование sudo, попробовав ввести от имени этого пользователя какую-нибудь команду, требующую root-прав. Для этого мне нужно либо выйти из системы (`exit` / `logout`) и перелогиниться на cpotyr, либо использовать команду `su` (**s**ubstitute **u**ser). Но ПЕРЕД этим, мне ещё сначала нужно дать пользователю *cpotyr* пароль, потомучто я этого не сделал в [Part 2.](#part-2-создание-пользователя)
 > - [X] `sudo passwd cpotyr` - дал пользователю *cpotyr* пароль
-> ![Alt text](screenshots/05.passw_for_cpotyr.jpeg)
+> ![Alt text](src/screenshots/05.passw_for_cpotyr.jpeg)
 
 Теперь можно зайти на этого пользователя, и посмотреть может ли он например изменить имя хоста.
 > - [X] `su cpotyr`
 > - [X] `whoami` - показывает имя текущего пользователя
-![Alt text](screenshots/05.logined_to_cpotyr.jpeg)
+![Alt text](src/screenshots/05.logined_to_cpotyr.jpeg)
 
-![Alt text](screenshots/05.cpotyr_has_no_rights.jpeg)
+![Alt text](src/screenshots/05.cpotyr_has_no_rights.jpeg)
 Система пишет что у *cpotyr* нет root-прав, и что *cpotyr* не может пользоваться sudo, поскольку его нет в списке судоеров. Логично, посколько я и не давал ему рут-прав и не вносил его в список судоеров. А ещё сказала что поябедничает куда-то об этом инциденте. Скорее всего она записала попытку ввода команды `sudo hostname shrek` от имени *cpotyr* в какой-то файл, который потом смогут открыть и почитать крутые судоеры.
 Теперь я занесу пользователя *cpotyr* в список судоеров, перейдя на пользователя **root** и отредактировав файл **/etc/sudoers**.
 
@@ -230,14 +230,14 @@ Sudoers - пользователи, у которых есть право исп
 > - [x] `su qyburnpr`
 > - [x] `sudo su root`
 > - [x] `visudo`
-![Alt text](screenshots/05.su_to_root.jpeg)
+![Alt text](src/screenshots/05.su_to_root.jpeg)
 
 **/etc/sudoers**:
 
 Было:
-![Alt text](screenshots/05.sudoers_before.jpeg)
+![Alt text](src/screenshots/05.sudoers_before.jpeg)
 Стало:
-![Alt text](screenshots/05.sudoers_after.jpeg)
+![Alt text](src/screenshots/05.sudoers_after.jpeg)
 
 > Я добавил строчку `cpotyr ALL=(ALL:ALL) ALL`
 > В секции под комментарием `# User privilege specification`
@@ -259,11 +259,11 @@ Sudoers - пользователи, у которых есть право исп
 > ALL: Указывает, что *cpotyr* может выполнять **любые** команды. (Только с припиской слова `sudo`, без этой приписки выполнять все команды может только **root**, у него есть **постоянные** привилегии)
 
 > Теперь, после добавления *cpotyr* в список судоеров, попробуем от него изменить имя хоста:
-![Alt text](screenshots/05.cpotyr_hostname_shrek.jpeg)
+![Alt text](src/screenshots/05.cpotyr_hostname_shrek.jpeg)
 Как видим, постоянных привилегий у *cpotyr* нет, но теперь он судоер и может просить эти привелегии через `sudo`
 Перезахожу в систему и смотрю изменилось ли имя хоста:
-![Alt text](screenshots/05.hostname_changed_1.jpeg)
-![Alt text](screenshots/05.hostname_changed_2.jpeg)
+![Alt text](src/screenshots/05.hostname_changed_1.jpeg)
+![Alt text](src/screenshots/05.hostname_changed_2.jpeg)
 
 Видим что *cpotyr* смог изменить имя хоста через `sudo`
 
@@ -278,11 +278,11 @@ Sudoers - пользователи, у которых есть право исп
 > - [x] `timedatectl show`
 
 И моё время было не синхронизировано:
-![Alt text](screenshots/06.timesync_no.jpeg)
+![Alt text](src/screenshots/06.timesync_no.jpeg)
 #### Но я разобрался в проблеме, и оказывается у моей виртуальной машины просто был отключен интернет-кабель. Я "воткнул" кабель:
-![Alt text](screenshots/06.plugged_the_cable.jpeg)
+![Alt text](src/screenshots/06.plugged_the_cable.jpeg)
 И время стало синхронизироваться, скорее всего из-за действий, которые я совершал в [Part 3](#part-3-настройка-сети-ос) :
-![Alt text](screenshots/06.synchronized.jpeg)
+![Alt text](src/screenshots/06.synchronized.jpeg)
 > Но вообще, сделать синхронизацию ещё можно установив утилиту **chrony**.
 **chrony** — это более гибкий и мощный инструмент для синхронизации времени, который подходит для сложных и нестандартных конфигураций.
 > - [x] `sudo apt install chrony` - установить
@@ -304,84 +304,84 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > - [x] `sudo apt install mcedit`
 
 > - [x] `touch test_vim.txt test_nano.txt test_mcedit.txt`
-> ![Alt text](screenshots/07.touch.jpeg)
+> ![Alt text](src/screenshots/07.touch.jpeg)
 
 ### Vim:
 > - [x] `vim test_vim.txt` 
 > -  Чтобы внести изменения надо нажать на кнопку <button>**`i`**</button> , это INSERT - режим вставки.
 >
 > - Чтобы сохранить изменения - <button>**esc**</button>-> <button>**shift**</button>+<button>**:**</button>->**`wq`**-><button>**Enter**</button>  (wq это write and quite)
-> ![Alt text](screenshots/07.vim_wq_1.jpeg)
-> ![Alt text](screenshots/07.cat_test_vim.jpeg)
+> ![Alt text](src/screenshots/07.vim_wq_1.jpeg)
+> ![Alt text](src/screenshots/07.cat_test_vim.jpeg)
 
 >  - Поиск слова: <button>**esc**</button> -> `/<искомое_слово>`
-> ![Alt text](screenshots/07.vim_search.jpeg)
+> ![Alt text](src/screenshots/07.vim_search.jpeg)
 
 >  - Замена слова: <button>**esc**</button> -> `:%s/<поменять_это>/<на_это>` -> <button>**Enter**</button>
-> ![Alt text](screenshots/07.vim_replace_1.jpeg)
-> ![Alt text](screenshots/07.vim_repalce_2.jpeg)
+> ![Alt text](src/screenshots/07.vim_replace_1.jpeg)
+> ![Alt text](src/screenshots/07.vim_repalce_2.jpeg)
 
 > - Выйти без изменений: <button>**esc**</button> -> <button>**shift**</button>+<button>**:**</button> -> `q!`
 > 
-> ![Alt text](screenshots/07.vim_dont_save.jpeg)
+> ![Alt text](src/screenshots/07.vim_dont_save.jpeg)
 > Проверим, что изменения не сохранились:
-> ![Alt text](screenshots/07.vim_cat_test_vim.jpeg)
+> ![Alt text](src/screenshots/07.vim_cat_test_vim.jpeg)
 ### Nano:
 > - Для выхода с сохранением нужно выполнить <button>**Ctrl**</button>+<button>**o**</button>, затем <button>**Ctrl**</button>+<button>**x**</button>:
-> ![Alt text](screenshots/07.nano_save&quit.jpeg)
+> ![Alt text](src/screenshots/07.nano_save&quit.jpeg)
 
 > - Для выхода без сохранения нужно нажать <button>**Ctrl**</button>+<button>**x**</button> и на вопрос редактора "Save modified buffer?" ответить "No", т.е. нажать <button>**N**</button>
-> ![Alt text](screenshots/07.nano_dont_save.jpeg)
-> ![Alt text](screenshots/07.nano_cat_test_nano.jpeg)
+> ![Alt text](src/screenshots/07.nano_dont_save.jpeg)
+> ![Alt text](src/screenshots/07.nano_cat_test_nano.jpeg)
 
 > - Поиск: <button>**Ctrl**</button>+<button>**w**</button>
 > - И после нажатия <button>**Enter**</button> он установит курсор на начало слова, если такое нашлось.
-> ![Alt text](screenshots/07.nano_search.jpeg)
+> ![Alt text](src/screenshots/07.nano_search.jpeg)
 
 > - Замена: <button>**Ctrl**</button>+<button> \ </button> (**back**slash)
 > - И ввести строчку, которая будет заменена:
-> ![Alt text](screenshots/07.nano_replace_1.jpeg)
+> ![Alt text](src/screenshots/07.nano_replace_1.jpeg)
 > - Ввести строчку, на что поменять:
-> ![Alt text](screenshots/07.nano_replace_2.jpeg)
+> ![Alt text](src/screenshots/07.nano_replace_2.jpeg)
 > - "Replace in this instance?" ("Заменить в этом совпадении?")
 > Если нажимать <button>**y**</button>(Yes) / <button>**n**</button>(No), nano будет менять или не менять и переходить к следующему совпадению если их несколько, а если нажать <button>**a**</button>(All) заменит сразу все совпадения.
-> ![Alt text](screenshots/07.nano_replace_3.jpeg)
+> ![Alt text](src/screenshots/07.nano_replace_3.jpeg)
 > - После nano напишет сколько совпадений он заменил
-> ![Alt text](screenshots/07.nano_replace_4.jpeg)
+> ![Alt text](src/screenshots/07.nano_replace_4.jpeg)
 
 ### MCEdit:
 > - Для выхода С сохранением необходимо нажать <button>**F10**</button> (либо <button>**Fn**</button>+<button>**F10**</button>) и выбрать **Yes** :
-> ![Alt text](screenshots/07.MCEdit_save&quit.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_save&quit.jpeg)
 
 > - Для выхода БЕЗ сохранения необходимо нажать <button>**F10**</button> (либо <button>**Fn**</button>+<button>**F10**</button>) и выбрать **No** :
-> ![Alt text](screenshots/07.MCEdit_dontsave&quit.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_dontsave&quit.jpeg)
 > И оно разумеется не сохранилось
-> ![Alt text](screenshots/07.mcedit_not_saved.jpeg)
+> ![Alt text](src/screenshots/07.mcedit_not_saved.jpeg)
 
 > - Поиск - <button>**F7**</button> :
-> ![Alt text](screenshots/07.MCEdit_search.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_search.jpeg)
 
 > - Замена - <button>**F4**</button> :
-> ![Alt text](screenshots/07.MCEdit_repalce_1.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_repalce_1.jpeg)
 > Тоже можно выбрать заменить текущее или все вхождения:
-> ![Alt text](screenshots/07.MCEdit_replace_2.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_replace_2.jpeg)
 > И вот оно заменилось:
-> ![Alt text](screenshots/07.MCEdit_replace_3.jpeg)
-> ![Alt text](screenshots/07.MCEdit_replace_4.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_replace_3.jpeg)
+> ![Alt text](src/screenshots/07.MCEdit_replace_4.jpeg)
 
 ## Part 8. Установка и базовая настройка сервиса SSHD
 ### Установка службы SSHd.
 > - Во-первых, я заранее поставил поставил галочку перед пунктом "Install OpenSSH server" при установке системы:
-> ![Alt text](screenshots/08.OpenSSH_server.jpeg)
+> ![Alt text](src/screenshots/08.OpenSSH_server.jpeg)
 
 > - Далее установил **ssh** :
 > - [x] `sudo apt install ssh`
-> ![Alt text](screenshots/08.apt_install_ssh.jpeg)
+> ![Alt text](src/screenshots/08.apt_install_ssh.jpeg)
 > - Далее добавил автостарт службы при загрузке системы.
 > - [x] `sudo systemctl enable ssh`
-> ![Alt text](screenshots/08.systemctl_enable_ssh.jpeg)
+> ![Alt text](src/screenshots/08.systemctl_enable_ssh.jpeg)
 > - Проверил статус **ssh** :
-> ![Alt text](screenshots/08.systemctl_status_ssh.jpeg)
+> ![Alt text](src/screenshots/08.systemctl_status_ssh.jpeg)
 > **ssh** активен 👍
 
 ### Про SSH: 
@@ -394,7 +394,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > SSH позволяет безопасно передавать в незащищённой среде практически любой другой сетевой протокол. Можно не только удалённо работать на компьютере через командную оболочку, но и передавать по шифрованному каналу звуковой поток или видео (например, с веб-камеры).
 ### Перенастройка службы SSHd на порт 2022:
 > Во-первых, сначала я добавил порт к своей виртуальной машине:
-> ![Alt text](screenshots/08.added_port.jpeg)
+> ![Alt text](src/screenshots/08.added_port.jpeg)
 > И перезагрузил машину:
 > - [x] `reboot`
 
@@ -402,7 +402,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > - [x]  `sudo vim /etc/ssh/sshd_config`
 > 
 > По умолчанию строчка с портом будет закомментирована и порт будет задан 22, раскомменчиваю строчку и изменяю порт на 2022:
-> ![Alt text](screenshots/08.sshd_config.jpeg)
+> ![Alt text](src/screenshots/08.sshd_config.jpeg)
 ##### "Используя команду ps, покажи наличие процесса sshd. Для этого к команде нужно подобрать ключи."
 > - Cмотрю информацию о процессе sshd следующей командой:
 > - [x] `ps -FC sshd`
@@ -413,7 +413,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > >
 > > `С` выдает информацию по дочерним процессам
 > 
-> ![Alt text](screenshots/08.ps_sshd.jpeg)
+> ![Alt text](src/screenshots/08.ps_sshd.jpeg)
 Процесс есть 👍
 ##### "Перезагрузи систему."
 > - [x] `reboot`
@@ -422,7 +422,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 ##### "Вывод команды netstat -tan должен содержать tcp 0 0 0.0.0.0:2022 0.0.0.0:* LISTEN (если команды netstat нет, то ее нужно установить)"
 > У меня нет netstat, следовательно устанавливаю его:
 > - [x] `sudo apt install net-tools`
-> ![Alt text](screenshots/08.install_net-tools.jpeg)
+> ![Alt text](src/screenshots/08.install_net-tools.jpeg)
 
 > netstat (*net*work *stat*istics) — утилита командной строки, выводящая на дисплей состояние TCP-соединений (как входящих, так и исходящих), таблицы маршрутизации, число сетевых интерфейсов и сетевую статистику по протоколам.
 > - [X] `netstat -tan`
@@ -434,7 +434,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > >
 > > `n` - показывает активные TCP-подключения с отображением адреса и номера порта в числовом формате без попыток определения имен.
 >
-> ![Alt text](screenshots/08.netstat_tan_2.jpeg)
+> ![Alt text](src/screenshots/08.netstat_tan_2.jpeg)
 > > Что нам показывают колонки: 
 > >
 > > - **Proto**: используемый протокол, в данном случае **tcp**
@@ -495,22 +495,22 @@ Vim и nano устанавливать не нужно, они уже есть. 
 Теперь, поскольку я установил и настроил сервис SSHD я могу подключиться к своему виртуальному серверу с терминала своей домашней системы (домашняя система - система в которой запущена моя виртуальная машина, система виртуальной машины называется гостевой).
 
 Сделать это я могу через утилиту **ssh** (для которой это всё и настраивалось), используя проброшенный мной порт 2022.
-![Alt text](screenshots/08.ssh_localhost.jpeg)
-![Alt text](screenshots/08.connected_to_server.jpeg)
+![Alt text](src/screenshots/08.ssh_localhost.jpeg)
+![Alt text](src/screenshots/08.connected_to_server.jpeg)
 Теперь у меня есть Линукс в терминале моей домашней системы (в моём случае в терминале мака),
 и это кстати замечательно, поскольку я теперь могу копировать и вставлять любой текст в терминал моего виртуального сервера Ubuntu, выделяя текст мышкой. Можно даже подключиться к этому виртуальному серверу через Visual Studio Code и работать в ВСкоде со всей файловой системой этого виртуального сервера. То есть в ВСкоде будет и сайдбар с файлами виртуалки, и можно создавать, редактировать и удалять любые файлы, которые есть на этом виртуальном сервере через ВСкод, и можно точно также открыть в ВСкоде терминал этого виртуального сервера. Как это сделать:
 Нужно установить ВСкод расширение "Remote - SSH" от Microsoft, далее тыкнуть в нижнем левом углу ВСкода на вот такую кнопку:
-![Alt text](screenshots/08.VScode_remote_ssh_button.jpeg)
+![Alt text](src/screenshots/08.VScode_remote_ssh_button.jpeg)
 В верхней полосочке ВСкода выползет кнока <button>**Подключение к узлу... ____________________________ Remote-SSH**</button>
-![Alt text](screenshots/08.virual_ubuntu_server_in_VScode_1.jpeg)
+![Alt text](src/screenshots/08.virual_ubuntu_server_in_VScode_1.jpeg)
 Тыкаем на неё и в окошке выйдет сообщение "*Выберите настроенный узел SSH или введите user@host*".
 
 Пишем в это окошко **username**@localhost:**port** , где **username** - имя любого пользователя, какой есть на этом сервере, а **port** - порт, который мы пробросили, в моём случае 2022. Я например могу написать `qyburnpr@localhost:2022` или `cpotyr@localhost:2022` или даже `root@localhost:2022`. Пишем и вводим. Окошко в ВСкоде спросит пароль для введённого пользователя сервера. Вводим пароль.
-![Alt text](screenshots/08.VScode_remote_ssh_button_2.jpeg)
+![Alt text](src/screenshots/08.VScode_remote_ssh_button_2.jpeg)
  И когда оно загрузится можем ещё и открыть сбоку папку. ВСкод снова спросит пароль выбранного пользователя, вводим. Потом спросит доверять ли авторам, ну и поскольку мы доверяем сами себе - нажимаем <button>доверять</button>, и откроется сайдбар с файлами виртуального сервера.
 
 Примерно так это всё может выглядить:
-![Alt text](screenshots/08.virtual_ubuntu_server_in_VScode_2.jpeg)
+![Alt text](src/screenshots/08.virtual_ubuntu_server_in_VScode_2.jpeg)
 Конкретно сейчас слева я открыл домашнюю папку пользователя *qyburnpr*, но разумеется можно открыть любую другую. Ну и, я думаю, открыть удалённый сервер можно не только в ВСкоде, но и в любой другой полноценной среде разработки.
 ## Part 9. Установка и использование утилит top, htop
 ##### "Установи и запусти утилиты top и htop."
@@ -520,7 +520,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > Для запуска утилиты пишу команду:
 >
 > - [x] `top`
-> ![Alt text](screenshots/09.top_opened_top.jpeg)
+> ![Alt text](src/screenshots/09.top_opened_top.jpeg)
 > 
 > Колонки, которые выводит программа очень похожи на ps:
 >
@@ -548,31 +548,31 @@ Vim и nano устанавливать не нужно, они уже есть. 
 >   - **pid процесса занимающего больше всего памяти:** 790
 >
 >       - - [x] <button>**shiht**</button>+<button>**m**</button>
->       - ![Alt text](screenshots/09.top_shift_m.jpeg)
+>       - ![Alt text](src/screenshots/09.top_shift_m.jpeg)
 >       - **PID** = 790; **%MEM** = 0.4;
 >   - **pid процесса, занимающего больше всего процессорного времени:** 2219
 >       - - [x] <button>**shift**</button>+<button>**p**</button>
->       - ![Alt text](screenshots/09.top_shift_p.jpeg)
+>       - ![Alt text](src/screenshots/09.top_shift_p.jpeg)
 >       - **PID** = 2219; **%CPU** = 0.7;
 ### **htop** 
 ##### Htop - "**H**isham's **top**" (Hisham - имя автора программы)
 > Для запуска утилиты пишу команду:
 >
 > - [x] `htop`
-> ![Alt text](screenshots/09.htop_opened_htop.jpeg)
+> ![Alt text](src/screenshots/09.htop_opened_htop.jpeg)
 > #### Сортировка в **htop**:
 > >
 > > Чтобы отсортировать процессы в **htop** используется клавиша <button>**F6**</button>(SortBy) , либо можно нажать на **SortBy** мышкой и выбрать нужный критерий, или сортировать процессы сразу тыкая мышкой на нужную колонку (**PID**, **USER**, **PRI** и т.д.). Это возможно поскольку **htop** поддерживает управление курсором.
 > >
 > > И поскольку я настроил к этому серверу подключение по ssh я теперь могу заходить на него с терминала мака и пользоваться мышкой. Через VirtualBox я пользоваться мышкой на сервере не мог.
 > > - Сортировка процессов по **PID**: 
-> > ![Alt text](screenshots/09.htop_pid.jpeg)
+> > ![Alt text](src/screenshots/09.htop_pid.jpeg)
 > > - Сортировка по **PERCENT_CPU**:
-> > ![Alt text](screenshots/09.htop_percent_cpu.jpeg)
+> > ![Alt text](src/screenshots/09.htop_percent_cpu.jpeg)
 > > - Сортировка по **PERCENT_MEM**: 
-> > ![Alt text](screenshots/09.htop_percent_mem.jpeg)
+> > ![Alt text](src/screenshots/09.htop_percent_mem.jpeg)
 > > - Сортировка по **TIME**:
-> > ![Alt text](screenshots/09.htop_sort_time.jpeg)
+> > ![Alt text](src/screenshots/09.htop_sort_time.jpeg)
 > >
 > > **Htop** может отсортировать процессы как по возрастанию так и по убыванию, когда тыкаешь на колонку первый раз, он сортирует по возрастанию, второй раз - по убыванию.
 >
@@ -582,7 +582,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > > Фильтрация происходит только по названию команды, запустившей процесс (то есть нужно смотреть в колонку **Command**).
 > > - Фильтрация по имени "sshd":
 > > - [x] надо нажать кнопку <button> **\\** </button> (backslash) и ввести желаемый набор символов
-> > ![Alt text](screenshots/09.htop_filter.jpeg)
+> > ![Alt text](src/screenshots/09.htop_filter.jpeg)
 > > **htop** отфильтровал процессы найдя "sshd" в командах, запустивших эти процессы. Удобство в том, что все остальные процессы он не показывает, потому и фильтр.
 >
 > #### Поиск процессов:
@@ -591,16 +591,16 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > > Поиск также происходит только по названию команды, запустившей процесс.
 > > - Поиск по имени "***syslog***":
 > > - [x] надо нажать кнопку <button>**/**</button>(slash) и ввести желаемый набор символов
-> > ![Alt text](screenshots/09.htop_search.jpeg)
+> > ![Alt text](src/screenshots/09.htop_search.jpeg)
 > > Нажатием на <button>**F3**</button> можно перейти к следующему процессу, найденному поиском по указанному набору символов, если таких процессов нашлось несколько. В стандартной цветовой теме текущий найденный процесс выделяется жёлтым цветом.(Тему, как и ещё кучу всего можно настроить нажав на <button>**F2**</button>"**Setup**")
 > #### Настройки вывода:
 > > Настроить **htop** можно нажав на <button>**F2**</button>"**Setup**"
 > >
 > > или зажав комбинацию клавиш <button>**Shift**</button>+<button>**s**</button>(setup)
 > > - Добавляю в настройках вывода **hostname**, **clock** и **uptime** в правую колонку.
-> > ![Alt text](screenshots/09.htop_display_settings.jpeg)
+> > ![Alt text](src/screenshots/09.htop_display_settings.jpeg)
 > > Теперь **htop** показывает справа дополнительно имя хоста, текущее время, и время работы системы:
-> > ![Alt text](screenshots/09.htop_hostname_clock_uptime.jpeg)
+> > ![Alt text](src/screenshots/09.htop_hostname_clock_uptime.jpeg)
 > В **htop** очень много настроек, можно полностью настроить его на свой вкус и цвет ~~так что родная мама не узнает~~
 
 ## Part 10. Использование утилиты fdisk
@@ -608,7 +608,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 - [x] `sudo fdisk -l`
   - `-l` - `l`ist partitions (список разделов диска)
 ##### "В отчёте напиши название жесткого диска, его размер и количество секторов, а также размер swap."
-![Alt text](screenshots/10.fdisk_l.jpeg)
+![Alt text](src/screenshots/10.fdisk_l.jpeg)
 - Название жёсткого диска: **/dev/sda** (dev - **dev**ices)
 
     > **/dev/sda** это имя по которому операционная система идентифицирует это устройство;
@@ -624,7 +624,7 @@ Vim и nano устанавливать не нужно, они уже есть. 
 - Количество секторов: 67 108 864
 - Размер swap: 0 бит
   - [x] `free -h ` (`-h` -- human-readable)
-  ![Alt text](screenshots/10.fdisk_swap_size.jpeg)
+  ![Alt text](src/screenshots/10.fdisk_swap_size.jpeg)
 
 Также, по первому скриншоту (в этом парте) мы видим что основная файловая система находится в разделе диска **/dev/sda1** занимая 29 Гигабайт.
 
@@ -634,9 +634,9 @@ Vim и nano устанавливать не нужно, они уже есть. 
 **df** - утилита в UNIX-подобных системах, показывает список всех файловых систем по именам устройств, сообщает их размер, занятое и свободное пространство и точки монтирования.
 ##### Запусти команду df.
 - [x] `df`
-![Alt text](screenshots/11.df_1.jpeg)
+![Alt text](src/screenshots/11.df_1.jpeg)
 - [x] `df /`
-![Alt text](screenshots/11.df_2.jpeg)
+![Alt text](src/screenshots/11.df_2.jpeg)
 > Информация для корневого раздела (/):
 > - Размер раздела: ***14 830 568***
 > - Размер занятого пространства: ***3 534 932***
@@ -645,9 +645,9 @@ Vim и nano устанавливать не нужно, они уже есть. 
 > - Единица измерения: ***Килобайт***
 ##### Запусти команду df -Th.
 - [x] `df -Th` ( `-T` -- добавляет столбец с типом файловой системы (например, ext4, xfs, tmpfs))
-![Alt text](screenshots/11.df_Th_1.jpeg)
+![Alt text](src/screenshots/11.df_Th_1.jpeg)
 - [x] `df -Th /`
-![Alt text](screenshots/11.df_Th_2.jpeg)
+![Alt text](src/screenshots/11.df_Th_2.jpeg)
 > Информация для корневого раздела (/):
 > - Размер раздела: ***15***
 > - Размер занятого пространства: ***3.4***
@@ -662,35 +662,35 @@ Vim и nano устанавливать не нужно, они уже есть. 
 **du** - стандартная Unix-программа для оценки занимаемого файлового пространства.
 ##### "Запусти команду du"
 - [x] `sudo du -h ` (`-h` -- **h**uman-readable (в килобайтах, гигабайтах и т.д.))
-![Alt text](screenshots/12.du_h.jpeg)
+![Alt text](src/screenshots/12.du_h.jpeg)
 ##### "Выведи размер папок /home, /var, /var/log (в байтах, в человекочитаемом виде)"
 - [x] `sudo du -s /home` - в байтах
 - [x] `sudo du -s /var`
 - [x] `sudo du -s /var/log`
-![Alt text](screenshots/12.du_s_home_var_varlog.jpeg)
+![Alt text](src/screenshots/12.du_s_home_var_varlog.jpeg)
 - [x] `sudo du -sh /home` - в человекочитаемом виде
 - [x] `sudo du -sh /var`
 - [x] `sudo du -sh /var/log`
-![Alt text](screenshots/12.du_sh_home_var_varlog.jpeg)
+![Alt text](src/screenshots/12.du_sh_home_var_varlog.jpeg)
 - `-s` - (--**s**ummarize) отображает только общий размер для каждого аргумента (для **du** аргументы - директории или файлы)
 ##### "Выведи размер всего содержимого в /var/log (не общее, а каждого вложенного элемента, используя *)"
 - [x] `sudo du /var/log/*` - в байтах
-![Alt text](screenshots/12.du_var_log.jpeg)
+![Alt text](src/screenshots/12.du_var_log.jpeg)
 - [x] `sudo du -h /var/log/*` - в человекочитаемом виде
-![Alt text](screenshots/12.du_h_var_log.jpeg)
+![Alt text](src/screenshots/12.du_h_var_log.jpeg)
 
 ## Part 13. Установка и использование утилиты ncdu
 Ncdu (**NC**urses **D**isk **U**sage) является инструментом командной строки для просмотра и анализа использования дискового пространства на Linux. Он может показать древовидные каталоги и дать отчет о свободном пространстве на HDD, используемого в отдельных каталогах. Таким образом, очень легко отследить сколько занимает места файлы / каталоги.
 ##### "Установи утилиту ncdu"
 - [x] `sudo apt install ncdu`
-![Alt text](screenshots/13.sudo_apt_install_ncdu.jpeg)
+![Alt text](src/screenshots/13.sudo_apt_install_ncdu.jpeg)
 ##### "Выведи размер папок /home, /var, /var/log"
 - [x] `ncdu /home`
-![Alt text](screenshots/13.ncdu_home.jpeg)
+![Alt text](src/screenshots/13.ncdu_home.jpeg)
 - [x] `ncdu /var`
-![Alt text](screenshots/13.ncdu_var.jpeg)
+![Alt text](src/screenshots/13.ncdu_var.jpeg)
 - [x] `ncdu /var/log`
-![Alt text](screenshots/13.ncdu_varlog.jpeg)
+![Alt text](src/screenshots/13.ncdu_varlog.jpeg)
 Размеры совпадают с размерами полученными в Part 12.
 ## Part 14. Работа с системными журналами
 (факт от англичан: "**log**" это "журнал")
@@ -701,7 +701,7 @@ dmesg - **d**iagnostic **mes**sa**g**e (диагностическое сооб�
 Файл **/var/log/dmesg** в Linux содержит системные сообщения, связанные с ядром. Эти сообщения включают информацию о процессе загрузки системы, обнаружении оборудования, инициализации драйверов, а также о других событиях, связанных с ядром. 
 > - [x] `tail -n 52 /var/log/dmesg`
 > - `tail -n` - команда, позволяющая вывести последние n строчек текстового файла.
-> ![Alt text](screenshots/14.tail_n_52_var_log_dmesg.jpeg)
+> ![Alt text](src/screenshots/14.tail_n_52_var_log_dmesg.jpeg)
 > 
 > В этот лог записывается информация о процессах последней загрузки системы.
 > 
@@ -723,7 +723,7 @@ syslog - **sys**tem **log** (системный журнал)
 - **Процесс:** Имя процесса и его идентификатор (PID), создавший запись.
 - **Сообщение:** Текстовое сообщение, описывающее событие.
 > - [x] `tail -n 25 /var/log/syslog`
-> ![Alt text](screenshots/14.tail_n_25_var_log_syslog.jpeg)
+> ![Alt text](src/screenshots/14.tail_n_25_var_log_syslog.jpeg)
 ##### 3. /var/log/auth.log
 auth.log - **auth**entication **log** (журнал аутентификаций)
 
@@ -736,7 +736,7 @@ auth.log - **auth**entication **log** (журнал аутентификаций
 - **Использование su:** Переключение пользователей в рамках текущей сессии.
 - **Задания cron:** Запуск автоматических задач от имени пользователей.
 > - [x] `tail -n 23 /var/log/auth.log`
-> ![Alt text](screenshots/14.tail_n_23_var_log_authlog.jpeg)
+> ![Alt text](src/screenshots/14.tail_n_23_var_log_authlog.jpeg)
 > Методы показаны на четвёртой колонке лога (sshd, su, system-logind, agetty, login, systemd, CRON)
 > ##### "Напиши в отчёте время последней успешной авторизации, имя пользователя и метод входа в систему":
 > - **Время последней успешной авторизации:** 6 Июля 11:17:01
@@ -747,7 +747,7 @@ auth.log - **auth**entication **log** (журнал аутентификаций
 > - [x] `sudo systemctl restart sshd`
 > ##### "Вставь в отчёт скрин с сообщением о рестарте службы (искать в логах)."
 > - [x] `tail -n 23 /var/log/auth.log | grep -n "restart sshd`
-> ![Alt text](screenshots/14.tail_n_23_var_log_authlog_grep_restart_sshd.jpeg)
+> ![Alt text](src/screenshots/14.tail_n_23_var_log_authlog_grep_restart_sshd.jpeg)
 > Видим что в лог **/var/log/auth.log** добавились строчки с сообщениями о рестарте службы **sshd**.
 
 ## Part 15. Использование планировщика заданий CRON
@@ -758,15 +758,15 @@ auth.log - **auth**entication **log** (журнал аутентификаций
 Название ***cron*** образовано от греческого слова χρόνος (хрόнос) — время (по-английски — chronos), разработчик - Кен Томпсон (автор системы UNIX).
 ##### "Используя планировщик заданий, запусти команду uptime через каждые 2 минуты."
 Чтобы автоматизировать через ***CRON*** какие-либо действия нужно редактировать **crontab**-файл. Каждая строка в файле **crontab** состоит из шести полей:
-![Alt text](screenshots/15.crontab_structure.jpeg)
+![Alt text](src/screenshots/15.crontab_structure.jpeg)
 
 Соответственно чтобы настроить запуск какой-то команды через каждые 2 минуты нужно менять самое первое поле.
 > Чтобы настроить **crontab** надо написать команду:
 > - [x] `crontab -e ` (`-e ` - **e**dit(редактировать))
 > - команда `crontab -e` открывает временный файл, в котором уже представлены все текущие задания cron (можно добавить новые) для текущего пользователя.
-> ![Alt text](screenshots/15.crontab_1.jpeg)
+> ![Alt text](src/screenshots/15.crontab_1.jpeg)
 > **crontab** предлагает выбрать редактор и подсказывает что **nano** - самый лёгкий :D. Окей, выберу его.
-> ![Alt text](screenshots/15.crontab_editing.jpeg)
+> ![Alt text](src/screenshots/15.crontab_editing.jpeg)
 > Открылся вот такой файл, с полезной информацией о себе в виде закомментированных строчек, и на последней строчке как раз представлен формат написания конфигураций:
 >
 > **m h dom mon dow command**
@@ -780,22 +780,22 @@ auth.log - **auth**entication **log** (журнал аутентификаций
 >
 > Сохраняю и закрываю. Вышла следующая строчка:
 > 
-> ![Alt text](screenshots/15.crontab_installing.jpeg)
+> ![Alt text](src/screenshots/15.crontab_installing.jpeg)
 > 
 > что значит что **crontab**-файл загрузился и вступил в силу.
 > 
 > Теперь мне нужно подождать несколько минут и потом глянуть лог **/var/log/syslog** и посмотреть вызывалась ли моя команда каждые 2 минуты.
-> ![Alt text](screenshots/15.tail_n_23_var_log_syslog.jpeg)
+> ![Alt text](src/screenshots/15.tail_n_23_var_log_syslog.jpeg)
 > Видим, что команда  `uptime` вызывалась в **15:00**, **15:02**, **15:04**, **15:06**, **15:08**. Значит **crontab** настроен правильно и ***CRON*** работает 👍.
 ##### "Выведи на экран список текущих заданий для CRON"
 > - [x] `crontab -l ` (`-l ` - list(список))
-> ![Alt text](screenshots/15.crontab_l.jpeg)
+> ![Alt text](src/screenshots/15.crontab_l.jpeg)
 ##### "Удали все задания из планировщика заданий."
 > - [x] `crontab -r` (`-r ` - **r**emove(удалить))
 > 
-> ![Alt text](screenshots/15.crontab_r.jpeg)
+> ![Alt text](src/screenshots/15.crontab_r.jpeg)
 > 
 > Видим что после удаления списка заданий больше нет 👍.
 ___
 Это была базовая работа с серверной версией операционной системы Ubuntu GNU/Linux. **Tux** доволен! 🐧
-![Alt text](screenshots/Tux.svg.png)
+![Alt text](src/screenshots/Tux.svg.png)
